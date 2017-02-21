@@ -1,0 +1,321 @@
+
+#include "Carro.h"
+/************************************************
+              MÉTODOS PÚBLICOS
+
+************************************************/
+
+Encoder encoderDireita (ENCODER_D1,ENCODER_D2);//=Encoder(2,3);//(2,3);
+Encoder encoderEsquerda (ENCODER_E1, ENCODER_E2);
+PID *pidMotor; 
+
+//TimerThree Timer3;
+/**
+** Método construtor da classe
+-- O usuário deve setar os pinos dos motores da direita e esquerda do robô.
+**@return void
+**/
+ Carro :: Carro(){
+
+  //encoderDireita = new Encoder (2, 3);
+   //inicializando o contador de interrupções dos encoders
+   clicksMotorDireita =0;
+   clicksMotorEsquerda=0;
+
+   //inicializando a velocidade defaut dos motores
+   velMaxDirPWM = 200;
+   velMaxEsqPWM = 200;
+
+   //updateEncoders.onRun(updEncoder);
+   //updateEncoders.setInterval(100);
+
+   //controller.add(&updateEncoders);
+
+   //inicializando as constantes do PID dos motores
+   motor_Kp =0.5;
+   motor_Ki =0;
+   motor_Kd =0;
+
+   //inicializando as variáveis dos PID dos motores
+   InputMotor   =0;
+   OutputMotor =0;
+   SetpointMotor=0;
+
+   //inicializando o objeto de PID dos motores
+   pidMotor =  new PID(&InputMotor, &OutputMotor, &SetpointMotor, motor_Kp, motor_Ki, motor_Kd, DIRECT);
+
+   //inicializando o objeto dos encoders dos motores
+   
+//   encoderDireita =  Encoder(ENCODER_D1,ENCODER_D2);//(ENCODER_D1,ENCODER_D2);
+  // encoderEsquerda =  Encoder (ENCODER_E1, ENCODER_E2);
+
+   //definindo os pinos dos motores como saída
+   pinMode(MOTOR_ESQUERDA_N, OutputMotor);
+   pinMode(MOTOR_ESQUERDA_P, OutputMotor);
+   pinMode(MOTOR_DIREITA_N, OutputMotor);
+   pinMode(MOTOR_DIREITA_P, OutputMotor);
+
+   Serial.begin(115200);
+   //Timer para atualizar as leituras dos encoders e o cálculo de velocidade e PID
+ //  Timer3.initialize(); 
+  // Timer3.attachInterrupt(updadeL1R2, TEMPO_UPDADE);
+}//fim construtor
+
+/*void Carro:: updEncoder(){
+  clicksMotorEsquerda = encoderEsquerda->read();
+  clicksMotorDireita = encoderDireita->read();
+} */
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>MÉTODOS DE MOVIENTO>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+
+void Carro :: _frente(int distancia, int type, int velocidade){
+    //Serial.println(115200);
+    int quantPulsos;
+    switch(type){
+      case CM : 
+            quantPulsos = 5*cmToPulsos(distancia)/4;
+            break;
+      case M : 
+            quantPulsos = 5*mToPulsos(distancia)/4;
+            break;
+      case POL:
+            quantPulsos = 5*polToPulsos(distancia)/4;
+            break;
+      default://erro
+            return;
+    }  //fim switch
+    _setVelocidade(velocidade);
+    updateL1R2();
+    while(distanciaPercorrida<quantPulsos){
+      analogWrite(MOTOR_DIREITA_N, VELMIN);
+      analogWrite(MOTOR_ESQUERDA_N, VELMIN);
+      analogWrite(MOTOR_DIREITA_P, velMaxDirPWM);
+      analogWrite(MOTOR_ESQUERDA_P, velMaxEsqPWM);
+      delayMicroseconds(50);
+      updateL1R2(); 
+    }//fim while
+    _parar();
+    distanciaPercorrida=0;
+}//fim _frente
+
+
+/**
+ **Método que faz o robô movimentar-se para a frente
+ --   Este método faz o robô andar para a frente por um tempo determinado
+ -- e uma velocidade definida por parâmetro.
+ **@param tempo long : tempo que o robô deve se locomover para frente, o tempo é definido em milissegundos
+ **@param velocidade int : velocidade do robô no movimento
+ --                A velocidade do robô é medida com base na saída PWM aplicada 
+ --                          nos motores. O range do PWM no arduino é de 0-255, todavia,
+ --                          para que o robô execute algum movimento, o PWM mínimo aplicado 
+ --                          é de 180.
+ -          Caso o valor de velocidade não for passado por parâmetro, então 
+ --                          ele assume o valor da constante VELOCIDADE_PWM_DEFAULT
+ **@return void 
+ **/
+void Carro :: _frente(long &tempo, unsigned int velocidade){
+      for(int i=0; i<100; i++){
+        updateL1R2(); 
+        analogWrite(MOTOR_DIREITA_N, VELMIN);
+        analogWrite(MOTOR_ESQUERDA_N, VELMIN);
+        analogWrite(MOTOR_DIREITA_P, velMaxDirPWM);
+        analogWrite(MOTOR_ESQUERDA_P, velMaxEsqPWM);
+        delay(tempo/100);
+      }//fim for
+      _parar();
+}//fim _frente
+
+void Carro :: _re(int distancia, int type,int velocidade){
+    int quantPulsos;
+    switch(type){
+      case CM : 
+            quantPulsos = 5*cmToPulsos(distancia)/4;
+           //Serial.println(quantPulsos);
+            break;
+      case M : 
+            quantPulsos = 5*mToPulsos(distancia)/4;
+            //Serial.println("C");
+            break;
+      case POL:
+            //Serial.println("O");
+            quantPulsos = 5*polToPulsos(distancia)/4;
+            break;
+      default://erro
+            return;
+    }  //fim switch
+    _setVelocidade(velocidade);
+    updateL1R2();
+//    Serial.println(quantPulsos);
+    while(distanciaPercorrida<quantPulsos){
+      analogWrite(MOTOR_DIREITA_P, VELMIN);
+      analogWrite(MOTOR_ESQUERDA_P, VELMIN);
+      analogWrite(MOTOR_DIREITA_N, velMaxDirPWM);
+      analogWrite(MOTOR_ESQUERDA_N, velMaxEsqPWM);
+      delayMicroseconds(50);
+      updateL1R2();
+    }//fim while
+    _parar();
+    distanciaPercorrida=0;
+}//fim _re
+
+void Carro :: _re(long &tempo, unsigned int velocidade){
+    for(int i=0; i<100;i++){
+      updateL1R2(); 
+      analogWrite(MOTOR_DIREITA_P, VELMIN);
+      analogWrite(MOTOR_ESQUERDA_P, VELMIN);
+      analogWrite(MOTOR_DIREITA_N, velMaxDirPWM);
+      analogWrite(MOTOR_ESQUERDA_N, velMaxEsqPWM);
+      updateL1R2();
+      delay(tempo/100);
+    }//fim for
+      _parar();
+}//fim _frente
+
+
+/**
+** __TODO__
+**@return void
+**/
+void Carro :: _direita(int angulo){
+  Serial.println("./l1r2msg.==.OI");
+  _parar();
+  if(angulo<0){
+    _esquerda((-angulo));
+    return;
+  }//fim if
+  
+  //velocidade para a manobra 
+  byte velDir=200,
+     velEsq=200,
+     velMin=0;
+  //limpando as leituras dos encoders
+  encoderDireita.write(0);
+  encoderEsquerda.write(0);
+  //calculando a quantidade de giros
+  /**
+  ** PeríM da roda = 21,41cm
+  ** Quantidade de interrupções por períM da roda = 6100
+  ** 
+  ** Quantidade de interrupções por ângulo = (180/angulo)*6100 = (305/9)*angulo
+  **/
+  int interrupcoesM = ((int) (250/9)*(angulo));
+  while((encoderDireita.read()<interrupcoesM)){ 
+    analogWrite(MOTOR_DIREITA_P, velMin);
+    analogWrite(MOTOR_ESQUERDA_N, velMin);
+    analogWrite(MOTOR_DIREITA_N, velDir);
+    analogWrite(MOTOR_ESQUERDA_P, velEsq);
+  }//fim while
+  _parar();
+}//fim _direita
+
+/**
+** __TODO__
+**@return void 
+**/
+void Carro :: _esquerda(int angulo){
+  _parar();
+  if(angulo<0){
+    _direita((-angulo));
+    return; 
+  }//fim if
+  //velocidade para a manobra 
+  byte velDir=200,
+       velEsq=200,
+       velMin=0;
+  //limpando as leituras dos encoders
+  encoderDireita.write(0);
+  encoderEsquerda.write(0);
+  //calculando a quantidade de giros
+  /**
+  ** PeríM da roda = 21,41cm
+  ** Quantidade de interrupções por períM da roda = 6100
+  ** 
+  ** Quantidade de interrupções por ângulo = (180/angulo)*6100 = (305/9)*angulo
+  **/
+  int interrupcoesM = ((int) (250/9)*(angulo));
+  while(((-encoderDireita.read())<interrupcoesM)){
+    analogWrite(MOTOR_DIREITA_N, velMin);
+    analogWrite(MOTOR_ESQUERDA_P, velMin);
+    analogWrite(MOTOR_DIREITA_P, velDir);
+    analogWrite(MOTOR_ESQUERDA_N, velEsq);
+  }//fim while
+  _parar();
+}//fim _esquerda
+
+/**
+** __TODO__
+**@return void
+**/
+void Carro :: _parar(){
+   analogWrite(MOTOR_ESQUERDA_P, VELMIN);
+   analogWrite(MOTOR_ESQUERDA_N, VELMIN);
+   analogWrite(MOTOR_DIREITA_P, VELMIN);
+   analogWrite(MOTOR_DIREITA_N, VELMIN);
+   encoderDireita.write(0);
+   encoderEsquerda.write(0);
+}//fim _parar
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>MÉTODOS DE CONFIGURAÇÃO>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+/**
+**Método que seta a velocidade padrão do robô
+--A velocidade do motor é um valor PWM que altera a tensão de alimentação dos motores, logo
+-- a velocidade do robô
+**@param velocidade int : valor da velocidade do robô, é um valor PWM que vai de 0-255
+**@return void
+**/
+void Carro :: _setVelocidade(int velocidade){
+  this -> vel_DEFAULT=velocidade;
+  this -> velMaxEsqPWM = velocidade;
+  this -> velMaxDirPWM = velocidade;
+}//fim setVelocidade
+
+/**
+** Método que retorna a velocidade atual do robô
+-- A velocidade pode ser setada pelo usuário, caso contrário ela é definida como VELOCIDADE_DEFAULT_PWM
+**@return void
+**/
+int Carro :: _getVelocidade(){
+  return this->vel_DEFAULT;
+}//getVelocidade
+
+/************************************************
+              MÉTODOS PRIVADOS
+*************************************************/
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>MÉTODOS DE CONFIGURAÇÃO>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+/**
+** __TODO__
+**@return void
+**/
+void Carro:: updateL1R2(){
+//  noInterrupts();
+  clicksMotorDireita  = encoderDireita.read();
+  clicksMotorEsquerda = encoderEsquerda.read();
+//  Serial.print("CD=");
+  //Serial.print(clicksMotorDireita);
+  //Serial.print(" CE=");
+  //Serial.print(clicksMotorEsquerda);
+  
+ //distanciaPercorrida += abs((clicksMotorEsquerda + clicksMotorDireita)/2);
+//  Serial.print("DP = ");
+  //Serial.print(distanciaPercorrida);
+  distanciaPercorrida += abs((abs(clicksMotorEsquerda) + abs(clicksMotorDireita)));
+//  distanciaPercorrida /= 2;
+
+  InputMotor = (clicksMotorDireita + clicksMotorEsquerda);
+  
+  pidMotor->Compute();
+//  Serial.print(" In=");
+  //Serial.print(InputMotor);
+//Serial.print(" Ot=");
+ //Serial.println(OutputMotor);
+  velMaxDirPWM = constrain(velMaxDirPWM - OutputMotor, 180 ,255);
+  velMaxEsqPWM = constrain(velMaxEsqPWM + OutputMotor, 180, 255);
+  //Serial.print(" PWMd=");
+  //Serial.print(velMaxDirPWM);
+  //Serial.print(" PWMe=");
+ // Serial.println(velMaxEsqPWM);
+  encoderDireita.write(0);
+  encoderEsquerda.write(0);
+  //interrupts();
+}//fim updatePIDMotor
