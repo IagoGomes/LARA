@@ -21,8 +21,10 @@ Farol *farol;
 ** Método Construtor da Classe
 -- 	Seta a pinagem do robô
 **/
- LARA::LARA(){   
-	
+LARA::LARA(){   
+  farol = new Farol(PIN_LED_DIREITA_R, PIN_LED_DIREITA_G, PIN_LED_DIREITA_B, PIN_LED_ESQUERDA_R,PIN_LED_ESQUERDA_G, PIN_LED_ESQUERDA_B);
+
+ 
 }//fim Construtor
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>MÉTODOS DE ACESSO AOS SENSORES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
@@ -447,6 +449,7 @@ void LARA::setAnguloReferencia(float angulo){
 **@return void
 **/
 void  LARA::ligarFarol(int led, int cor){
+	farol -> _ligarFarol(led, cor);
 }//fim ligarFarol
 
 

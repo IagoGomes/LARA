@@ -18,7 +18,7 @@ private:
 
 public:	
 
-	void _ligarFarol(int cor = COR_DEFAULT, int led=DIREITA_ESQUERDA);
+	void _ligarFarol(int led=DIREITA_ESQUERDA, int cor = COR_DEFAULT);
 	void _desligarFarol(int led = DIREITA_ESQUERDA);
 	void _piscarFarol(unsigned int n = ITERACAO_FAROL, unsigned int tempo = TEMPO_PISCAR , int cor = COR_DEFAULT, int led = DIREITA_ESQUERDA);
 	Farol(int pin_r, int pin_g, int pin_b);

@@ -40,12 +40,12 @@
 
 /* ===================  LEDs RGB - FARÓIS  ==================*/
 //      LED                   PINO       COR_PINO
-#define PIN_LED_DIREITA_R      11     // vermelho
-#define PIN_LED_DIREITA_G      13     // verde
-#define PIN_LED_DIREITA_B      12     // azul
-#define PIN_LED_ESQUERDA_R     8      // vermelho
-#define PIN_LED_ESQUERDA_G     10     // verde
-#define PIN_LED_ESQUERDA_B     9      // azul
+#define PIN_LED_DIREITA_R      10//11     // vermelho
+#define PIN_LED_DIREITA_G      11//13     // verde
+#define PIN_LED_DIREITA_B      A6//12     // azul
+#define PIN_LED_ESQUERDA_R     8//8      // vermelho
+#define PIN_LED_ESQUERDA_G     9//10     // verde
+#define PIN_LED_ESQUERDA_B     A7//9      // azul
 
 
 /* ==================== MAGNENÔMETRO GY271  ==================*/

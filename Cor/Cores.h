@@ -15,7 +15,7 @@
 #define ROXO 9
 
 
-/*static  Cor cores[10] ={ Cor(0,0,0),  //PRETO
+static  Cor cores[10] ={ Cor(0,0,0),  //PRETO
                          Cor(255,0,0), //VERMELHO
 			 Cor(0,0,255), //AZUL 
 			 Cor(255,255,0), //AMARELO
@@ -25,7 +25,7 @@
 			 Cor(255, 128, 0), //LARANJA
 			 Cor(255, 192, 203), //ROSA
 			 Cor(155, 48, 255)}; //ROXO
-*/
+
 static int COR_DEFAULT = VERMELHO;
 
 #endif
