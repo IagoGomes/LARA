@@ -6,15 +6,9 @@
 *@param g:int
 *@param b:int
 */
-Cor::Cor(int r, int g, int b, char name){
-	this -> r=r;
-	this -> g=g;
-	this -> b=b;
-        this -> sensor_data.r_min=0;
-	this -> name = name;
+Cor::Cor(){
+	
 }
-
-Cor::Cor(){};
 
 /** Método isColor verifica se as variáveis r, g, b possuem o mesmo valor *    das variáveis da classe.
 *@param r:int
@@ -22,43 +16,25 @@ Cor::Cor(){};
 *@param b:int
 *@return bool
 */
-bool Cor::isColor (int r, int g, int b){
-	return (this -> r==r) && (this -> g==g) && (this -> b==b);
+bool Cor::isColor(int r, int g, int b) { 
+	return (r>=r_min && r<=r_max) && (g>=g_min && g<=g_max) && (b>=b_min && b<=b_max);
 }
 
-/** Método isEqual verifica se duas cores são iguais comparando os valores *    das variáveis r, g, b.
-*@param cor
-*@return bool
-*/
-bool Cor::isEqual(Cor cor){
-	return isColor(cor.getR(), cor.getG(), cor.getB());
+void Cor::setR(int r_min, int r_max) { 
+	this->r_min = r_min;
+	this->r_max = r_max;
 }
 
-/** Método getR retorna o valor de r.
-*@return int
-*/
-int Cor::getR(){
-	return r;
+void Cor::setG(int g_min, int g_max) { 
+	this->g_min = g_min;
+	this->g_max = g_max;
 }
 
-/** Método getG retorna o valor de g.
-*@return int
-*/
-int Cor::getG(){
-	return  g;
+void Cor::setB(int b_min, int b_max) { 
+	this->b_min = b_min;
+	this->b_max = b_max;
 }
 
-/** Método getB retorna o valor de b.
-*@return int
-*/
-
-int Cor::getB(){
-	return  b;
-}
-
-char Cor::getName(){
-	return this->name;
-}
 
 
 

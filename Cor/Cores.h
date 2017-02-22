@@ -33,6 +33,8 @@ static rgb _rgb[10]={{0,0,0},       //PRETO
 		     {180,48,255},  //ROXO
                     }; 
 
+static Cor cores[10];
+
 static int COR_DEFAULT = VERMELHO;
 
 #endif
