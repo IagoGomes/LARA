@@ -6,11 +6,12 @@
 *@param g:int
 *@param b:int
 */
-Cor::Cor(int r, int g, int b){
+Cor::Cor(int r, int g, int b, char name){
 	this -> r=r;
 	this -> g=g;
 	this -> b=b;
         this -> sensor_data.r_min=0;
+	this -> name = name;
 }
 
 Cor::Cor(){};
@@ -37,14 +38,14 @@ bool Cor::isEqual(Cor cor){
 *@return int
 */
 int Cor::getR(){
-	return this -> r;
+	return r;
 }
 
 /** Método getG retorna o valor de g.
 *@return int
 */
 int Cor::getG(){
-	return this -> g;
+	return  g;
 }
 
 /** Método getB retorna o valor de b.
@@ -52,8 +53,13 @@ int Cor::getG(){
 */
 
 int Cor::getB(){
-	return this -> b;
+	return  b;
 }
+
+char Cor::getName(){
+	return this->name;
+}
+
 
 
 

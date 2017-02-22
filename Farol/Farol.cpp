@@ -19,44 +19,30 @@
 **@return void
 **/
 void Farol:: _ligarFarol(int led, int cor){
-	if (same) { //Ambos os leds estiverem conectados	
-		analogWrite(pin_r_1, cores[cor].getR());
-	    	analogWrite(pin_g_1, cores[cor].getG());
-    		analogWrite(pin_b_1, cores[cor].getB());
+	if (same) { //Ambos os leds estiverem conectados
+		analogWrite(pin_r_1, _rgb[cor].r);
+	    	analogWrite(pin_g_1, _rgb[cor].g);
+    		analogWrite(pin_b_1, _rgb[cor].b);
 	} else { //Caso os leds não estiverem conectados
-		Serial.println(led);
-		Serial.println(ESQUERDA);
-		Serial.println(DIREITA);
 		switch (led) {// Ligar cada um separadamente
 			case DIREITA: //led da direita apenas
-			     Serial.println("AQUI");
-	    	             analogWrite(pin_r_1, cores[cor].getR());
-	    	             analogWrite(pin_g_1, cores[cor].getG());
-	    	             analogWrite(pin_b_1, cores[cor].getB());
-    	                     break;
-    	             
+	    	             analogWrite(pin_r_1, _rgb[cor].r);
+	    	             analogWrite(pin_g_1, _rgb[cor].g);
+ 	    	             analogWrite(pin_b_1, _rgb[cor].b);
+    	                     break;    	             
 			case ESQUERDA://led da esquerda apenas
-			     Serial.println("ESQUERDA");
-			     Serial.println(pin_r_2);
-			     Serial.println(pin_g_2);
-			     Serial.println(pin_b_2);
-			     Serial.println(cores[cor].getR());
-			     Serial.println(cores[cor].getG());
-			     Serial.println(cores[cor].getB());
-	    	             analogWrite(pin_r_2, cores[cor].getR());
-	    	             analogWrite(pin_g_2, cores[cor].getG());
-	    	             analogWrite(pin_b_2, cores[cor].getB());
-	    	             break;
-    	             
+	    	             analogWrite(pin_r_2, _rgb[cor].r);
+	    	             analogWrite(pin_g_2, _rgb[cor].g);
+	    	             analogWrite(pin_b_2, _rgb[cor].b);
+	    	             break;    	             
 	    	        case DIREITA_ESQUERDA://ambos os leds
-			     analogWrite(pin_r_1, cores[cor].getR());
-	    	             analogWrite(pin_g_1, cores[cor].getG());
-	    	             analogWrite(pin_b_1, cores[cor].getB());
-	    	             analogWrite(pin_r_2, cores[cor].getR());
-	    	             analogWrite(pin_g_2, cores[cor].getG());
-	    	             analogWrite(pin_b_2, cores[cor].getB());
+			     analogWrite(pin_r_1, _rgb[cor].r);
+	    	             analogWrite(pin_g_1, _rgb[cor].g);
+	    	             analogWrite(pin_b_1, _rgb[cor].b);
+	    	             analogWrite(pin_r_2, _rgb[cor].r);
+	    	             analogWrite(pin_g_2, _rgb[cor].g);
+	    	             analogWrite(pin_b_2, _rgb[cor].b);
 	    	             break;
-    	             
 	    	        default://caso o parâmetro da pinagem estiver incorreto, não for nenhum dos leds
 	    	             Serial.println("./l1r2err.==.Erro: Led não encontrado. Verifique o parÂmetro led passado por parâmetro!"); 
 	   }//fim switch
@@ -77,12 +63,9 @@ void Farol:: _ligarFarol(int led, int cor){
 void Farol::_desligarFarol(int led){
 	
 	if (same) { // Ambos os leds estiverem conectados
-		
 		 analogWrite(pin_r_1, 0);
 	    	 analogWrite(pin_g_1, 0);
-	    	 analogWrite(pin_b_1, 0);
-       
-        
+	    	 analogWrite(pin_b_1, 0);  
 	} else { //Caso os leds não estiverem conectados
 		switch (led) {// Ligar cada um separadamente
 			case DIREITA: //led da direita apenas

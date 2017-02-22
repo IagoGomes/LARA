@@ -2,6 +2,7 @@
 #define FAROL_H
 
 #include "../Constantes.h"
+#include "../Cor/Cores.h"
 #include <Arduino.h>
 
 class Farol {

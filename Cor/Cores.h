@@ -1,5 +1,5 @@
-#ifndef CORES_H
-#define CORES_H
+#ifndef _rgbES_H
+#define _rgbES_H
 
 #include "Cor.h"
 
@@ -14,17 +14,24 @@
 #define ROSA 8
 #define ROXO 9
 
+struct _rgb_data {
+        int r;
+        int g;
+        int b;
+}; 
+typedef struct _rgb_data rgb;
 
-static  Cor cores[10] ={ Cor(0,0,0),  //PRETO
-                         Cor(255,0,0), //VERMELHO
-			 Cor(0,0,255), //AZUL 
-			 Cor(255,255,0), //AMARELO
-			 Cor(0,0,255), //VERDE
-			 Cor(139, 90, 43), //MARRON
-			 Cor(255, 255, 255), //BRANCO
-			 Cor(255, 128, 0), //LARANJA
-			 Cor(255, 192, 203), //ROSA
-			 Cor(155, 48, 255)}; //ROXO
+static rgb _rgb[10]={{0,0,0},       //PRETO
+                     {255,0,0},     //VERMELHO
+                     {0,0,255},     //AZUL
+                     {128,128,0},   //AMARELO
+		     {0,255,0},     //VERDE
+                     {200,90,90},   //MARROM
+                     {255,255,255}, //BRANCO
+                     {255,128,0},   //LARANJA
+		     {255,192,203}, //ROSA
+		     {180,48,255},  //ROXO
+                    }; 
 
 static int COR_DEFAULT = VERMELHO;
 

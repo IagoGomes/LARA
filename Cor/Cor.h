@@ -13,6 +13,7 @@ struct _limiteSensorCor{
 typedef struct _limiteSensorCor SensorData;
 
 
+
 class Cor{
 
 public:
@@ -22,7 +23,7 @@ public:
 	*@param g:int
 	*@param b:int
 	*/
-	Cor(int r, int g, int b);
+	Cor(int r, int g, int b, char name);
  
         Cor();
 
@@ -56,11 +57,14 @@ public:
 	*@return int
 	*/
 	int getB();
+
+	char getName();
 	
 private:
 	int r, g, b;
 	int index;
 	SensorData sensor_data;
+ 	char name;
 };
 
 #endif
