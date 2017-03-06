@@ -56,8 +56,8 @@ Carro :: Carro(){
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>MÉTODOS DE MOVIENTO>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
-void Carro :: _frente(int distancia, int type, int velocidade){
-    _setVelocidade(velocidade);
+void Carro :: frente(int distancia, int type, int velocidade){
+    setVelocidade(velocidade);
 
     uint8_t time = 50;
     uint8_t timePID = 25;
@@ -77,7 +77,7 @@ void Carro :: _frente(int distancia, int type, int velocidade){
         lastTimePID = millis();
       }
     }//fim while
-    _parar();
+    parar();
 }//fim _frente
 
 
@@ -95,11 +95,11 @@ void Carro :: _frente(int distancia, int type, int velocidade){
  --                          ele assume o valor da constante VELOCIDADE_PWM_DEFAULT
  **@return void 
  **/
-void Carro :: _frente(long &tempo, unsigned int velocidade){
+void Carro :: frente(long &tempo, unsigned int velocidade){
 }//fim _frente
 
-void Carro :: _re(int distancia, int type,int velocidade){
-    _setVelocidade(velocidade);
+void Carro :: re(int distancia, int type,int velocidade){
+    setVelocidade(velocidade);
 
     uint8_t time = 50;
     uint8_t timePID = 25;
@@ -119,10 +119,10 @@ void Carro :: _re(int distancia, int type,int velocidade){
         lastTimePID = millis();
       }
     }//fim while
-    _parar();
+    parar();
 }//fim _re
 
-void Carro :: _re(long &tempo, unsigned int velocidade){
+void Carro :: re(long &tempo, unsigned int velocidade){
 }//fim _frente
 
 
@@ -130,7 +130,7 @@ void Carro :: _re(long &tempo, unsigned int velocidade){
 ** __TODO__
 **@return void
 **/
-void Carro :: _direita(int angulo){
+void Carro :: direita(int angulo){
    long _alpha = 0;
    while(_alpha<2*angulo){
         analogWrite(MOTOR_DIREITA_P, VEL_MIN);
@@ -142,21 +142,21 @@ void Carro :: _direita(int angulo){
         Serial.print("alpha=");
         Serial.println(_alpha);
    }
-   _parar();
+   parar();
 }//fim _direita
 
 /**
 ** __TODO__
 **@return void 
 **/
-void Carro :: _esquerda(int angulo){
+void Carro :: esquerda(int angulo){
 }//fim _esquerda
 
 /**
 ** __TODO__
 **@return void
 **/
-void Carro :: _parar(){
+void Carro :: parar(){
  analogWrite(MOTOR_DIREITA_N, VEL_MIN);
  analogWrite(MOTOR_ESQUERDA_N, VEL_MIN);
  analogWrite(MOTOR_DIREITA_P, VEL_MIN);
@@ -171,7 +171,7 @@ void Carro :: _parar(){
 **@param velocidade int : valor da velocidade do robô, é um valor PWM que vai de 0-255
 **@return void
 **/
-void Carro :: _setVelocidade(int velocidade){
+void Carro :: setVelocidade(int velocidade){
   this -> vel_default=velocidade;
   this -> vel_max_pwm_esquerda = velocidade;
   this -> vel_max_pwm_direita = velocidade;
@@ -182,7 +182,7 @@ void Carro :: _setVelocidade(int velocidade){
 -- A velocidade pode ser setada pelo usuário, caso contrário ela é definida como VELOCIDADE_DEFAULT_PWM
 **@return void
 **/
-int Carro :: _getVelocidade(){
+int Carro :: getVelocidade(){
   return this->vel_default;
 }//getVelocidade
 

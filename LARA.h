@@ -41,18 +41,15 @@ Versão: 2.0
 	#include <pins_arduino.h>
 #endif
 
-#include "NewPing/NewPing.h"//biblioteca para controle do ultrassom
+
 #include "Carro/Carro.h"//biblioteca para o controle do carro (L1R2)
-#include "Compass/Compass.h" //biblioteca para comunicacao I2C com a bússola
 #include "Constantes.h"
-#include "Cor/Cor.h"
 #include "Farol/Farol.h"
+#include "Sensores/Sensores.h"
 
 class Carro;
-class NewPing;
-class Cor;
-class Compass;
-
+class Sensores;
+class Farol;
 
 /*****************Definição da Classe LARA***************************/
 
@@ -288,7 +285,7 @@ void desligarFarol(int led=DIREITA_ESQUERDA);
 **                  o tempo é definido em milissegundos
 **@return void
 **/
-void piscarFarol(unsigned int n=ITERACAO_FAROL, unsigned int tempo=TEMPO_PISCAR, int led=DIREITA_ESQUERDA, int cor  = COR_DEFAULT);
+void piscarFarol(unsigned int n=ITERACAO_FAROL, unsigned int tempo=TEMPO_PISCAR, int cor  = COR_DEFAULT, int led=DIREITA_ESQUERDA);
 
 /************
 Métodos de Movimentos

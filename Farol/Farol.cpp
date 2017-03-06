@@ -18,7 +18,7 @@
 --                 DIREITA_ESQUERDA - ambos os leds ao mesmo tempo
 **@return void
 **/
-void Farol:: _ligarFarol(int led, int cor){
+void Farol:: ligarFarol(int led, int cor){
 	if (same) { //Ambos os leds estiverem conectados
 		analogWrite(pin_r_1, _rgb[cor].r);
 	    	analogWrite(pin_g_1, _rgb[cor].g);
@@ -60,7 +60,7 @@ void Farol:: _ligarFarol(int led, int cor){
 --                 DIREITA_ESQUERDA - ambos os leds ao mesmo tempo
 **@return void
 **/
-void Farol::_desligarFarol(int led){
+void Farol::desligarFarol(int led){
 	
 	if (same) { // Ambos os leds estiverem conectados
 		 analogWrite(pin_r_1, 0);
@@ -103,11 +103,11 @@ void Farol::_desligarFarol(int led){
 **@param int Cor: Cor do led. Por default é azul
 **@param unsigned int tempo : tempo que o led fica ligado e desligado
 **/
-void  Farol::_piscarFarol(unsigned int n,unsigned int tempo, int cor, int led){
+void  Farol::piscarFarol(unsigned int n,unsigned int tempo, int cor, int led){
    for(int i=0; i<n; i++){
-   	 _ligarFarol(cor, led);
+   	 ligarFarol(cor, led);
    	 delay(tempo);
-   	 _desligarFarol(led);
+   	 desligarFarol(led);
    	 delay(tempo);
    }//fim for
 }//fim piscarFarol

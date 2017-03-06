@@ -4,7 +4,7 @@
 
 //#include <Arduino.h>
 #include "Pinos.h"
-#include "Cor/Cores.h"
+#include "Cor/LED_RGB.h"
 
 #define DIREITA  0
 #define ESQUERDA 1
@@ -27,8 +27,8 @@
 #define DISTANCIA_DEFAULT_CM  10
 #define ANGULACAO_DEFAULT     90
 
-	#define TEMPO_DEFAULT 0.5
-	#define DIST_DEFAULT 10
+#define TEMPO_DEFAULT 0.5
+#define DIST_DEFAULT 10
 #define VELOCIDADE_DEFAULT     5
 #define ITERACAO_DEFAULT       1
 #define RANGE_VELMIN           5

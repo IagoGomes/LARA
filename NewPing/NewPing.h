@@ -132,11 +132,14 @@
 class NewPing {
 	public:
 		NewPing(uint8_t trigger_pin, uint8_t echo_pin, int max_cm_distance = MAX_SENSOR_DISTANCE);
-        NewPing();
+	        NewPing();
 		unsigned int ping();
 		unsigned int ping_in();
 		unsigned int ping_cm();
 		unsigned int ping_median(uint8_t it = 5);
+		unsigned int ping_median_cm(uint8_t it = 5);
+		unsigned int ping_median_in(uint8_t it = 5);
+		unsigned int ping_median_m(uint8_t it = 5);
 		unsigned int convert_in(unsigned int echoTime);
 		unsigned int convert_cm(unsigned int echoTime);
 		void ping_timer(void (*userFunc)(void));

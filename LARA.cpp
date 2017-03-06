@@ -23,31 +23,13 @@ Farol *farol;
 **/
 LARA::LARA(){   
   farol = new Farol(PIN_LED_DIREITA_R, PIN_LED_DIREITA_G, PIN_LED_DIREITA_B, PIN_LED_ESQUERDA_R,PIN_LED_ESQUERDA_G, PIN_LED_ESQUERDA_B);
-
+  sensor = new Sensores();
  
 }//fim Construtor
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>MÉTODOS DE ACESSO AOS SENSORES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
     //----------------Implementação de Métodos para Leitura de sensores------------------------------//
 
-/**
- ** Método que retorna a leitura do sensor de infravermelho
- --   O Sensor infravermelho é usado no módulo seguidor de linha do robô
- **@param indexIR int : indíce do sensor infravemelhor
- --		        0 - Direita
- --		        1 - Esquerda
- --		        2 - Centro
- **@param type int : indíce que determina o tipo de leitura do sensor:
- --		        3 - Digital
- --		        4 - Analogico
- **@return leituraIR int : leitura do sensor de Infravermelho
- --		          0 ou 1 para leituras digitais
- --		          0 a 1023 para leituras analógicas
- --			  -1 - ERRO
- **/
-int LARA::leituraIR(int  indexIR , int type){
-	return -1;
-}//fim leituraIR
 
 /**
  ** Método que retorna a leitura do sensor de luz (LDR)
@@ -62,8 +44,7 @@ int LARA::leituraIR(int  indexIR , int type){
  --			    -1 - ERRO
  **/
 int LARA:: leituraSensorLuz(int indexLDR){
-			return -1;
-
+	sensor -> leituraSensorLuz(indexLDR);
 }//fim leituraLDR
 
 /**
@@ -78,8 +59,8 @@ int LARA:: leituraSensorLuz(int indexLDR){
 **@return distanciaUltrassom int : calculo de distância em centímetros do sensor ultrassom
 --				   -1 - ERRO
 **/
-int LARA::distancia(int indexUltrassom , int type){
-	return -1;
+int LARA::distancia(int indexUltrassom , int un){
+	sensor -> distancia(indexUltrassom, un);
 }//fim distancia
 
 
@@ -93,51 +74,9 @@ ra a leitura do ldr do centro
 **@return void
 **/
 void LARA::getLeiturasSensorDeLuz(int *ldrDireita, int *ldrEsquerda, int *ldrCentro){
-        *ldrDireita=leituraSensorLuz(DIREITA);
-        *ldrEsquerda=leituraSensorLuz(ESQUERDA);
-        *ldrCentro=leituraSensorLuz(CENTRO);
+        sensor -> getLeiturasSensorDeLuz(ldrDireita, ldrEsquerda, ldrCentro);
 }//fim getLeiturasLDR
 
-
-/**
-** (Passagem por Referência)
-** Método que seta em três variáveis o valor das leituras dos sensores de ultrassom
-**@param ultDireita &int : variável para a leitura do ultrassom da direita
-**@param ultEsquerda &int : variável para a leitura do ultrassom da esquerda
-**@param ultFrente &int: variável para a leitura do ultrassom do frente
-**@param ultTras &int : variável para a leitura do ultrassom de tras
-**@param type int: unidade de medida da distância calculada pelos sensores de ultrassom
---                  pode assumir os valores das constantes : CM - centímetro, POL - polegadas e 
---                  M - metros;
-**@return void
-**/
-void LARA:: getLeiturasUltrassom (int *ultDireita, int *ultEsquerda, int *ultFrente, int *ultTras, 
-	                                           int *ultFrenteDireita, int *ultFrenteEsquerda, int type){
-     *ultDireita=distancia(DIREITA, type);
-     *ultEsquerda=distancia(ESQUERDA, type);
-     *ultFrente=distancia(FRENTE, type);
-     *ultTras=distancia(TRAS, type);
-     *ultFrenteEsquerda = distancia(FRENTE_ESQUERDA, type);
-     *ultFrenteDireita = distancia(FRENTE_DIREITA, type);
-}//fim getLeiturasLDR
-
-/**
-** (Passagem por referência)
-** Método que seta as três variáveis para os valores das leituras dos sensores de infravermelho
---      no módulo seguidor de linha
--- caso a leitura falhe, o programa é interrompido o robô é redirecionado para um loop infinito 
--- sem realizar nenhuma ação
-**@param irDireita &int : referência para a leitura do sensor da direita
-**@param irEsquerda &int : referência para a leitura do sensor da esquerda
-**@param irCentro &int : referência para a leitura do sensor do centro
-**@param type int : tipo de leitura, se é digital ou analógica
---                  se o interesse for digital, então a constante DIGITAL deve ser passada por
---                   parâmetro. Já se o interesse for na leitura analógica, então a constante
---                  ANALOGICO deve ser passado por parâmetro
-** @return void
-**/
-void LARA:: getLeiturasIR(int *irDireita, int *irEsquerda, int *irCentro, int type){
-}//fim getLeiturasIR
 
 /** 
 ** (Passagem por referência)
@@ -148,6 +87,7 @@ void LARA:: getLeiturasIR(int *irDireita, int *irEsquerda, int *irCentro, int ty
 **@return void
 **/
 void  LARA:: getLeiturasBussola(int *xAxis, int *yAxis, int *zAxis){
+	sensor -> getLeiturasBussola(xAxis, yAxis, zAxis);
 }//fim getLeiturasBussola
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>MÉTODOS DE ESTRATÉGIAS DOS SENSORES>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
@@ -162,7 +102,7 @@ void  LARA:: getLeiturasBussola(int *xAxis, int *yAxis, int *zAxis){
 --          -1 se nenhum sensor estiver lendo a linha
 **/   
 int LARA:: getLinha(){
-	return -1;//nenhum sensor lÊ a linha
+	return sensor->getLinha();//nenhum sensor lÊ a linha
 }//fim getLinha
 		
 /** 
@@ -176,7 +116,7 @@ int LARA:: getLinha(){
 --		          -1 - ERRO
 **/
 int LARA:: getMinDistancia(){
-	return -1; // ERRO
+	return sensor->getMinDistancia(); // ERRO
 }//fim getMinDistancia
 
 /** 
@@ -190,7 +130,7 @@ int LARA:: getMinDistancia(){
 --  			  -1 - ERRO
 **/
 int LARA:: getMaxDistancia(){
-	return -1;//ERRO
+	return sensor->getMaxDistancia();//ERRO
 }//fim getMaxDistancia
 
 
@@ -231,7 +171,7 @@ void LARA::  frente( long &tempo, unsigned int velocidade){
   	Serial.println("./l1r2err.==.Erro na execução da função (frente): Velocidade muito alta!");
   	end();
   }//fim if-else
-  carro -> _frente(tempo, VEL_TO_PWM(velocidade));
+  carro -> frente(tempo, VEL_TO_PWM(velocidade));
 }//fim frente
 
 /**
@@ -267,7 +207,7 @@ void LARA:: frente(unsigned int distancia, int type, unsigned int velocidade){
   	end();
   }//fim if-else
 	  
-  carro -> _frente(distancia, type, VEL_TO_PWM(velocidade));
+  carro -> frente(distancia, type, VEL_TO_PWM(velocidade));
 }//fim frente
 
 /**
@@ -290,7 +230,7 @@ void LARA:: re(long &tempo, unsigned int velocidade){
   	end();
   }//fim if-else
 
-  carro -> _re(tempo, VEL_TO_PWM(velocidade));
+  carro -> re(tempo, VEL_TO_PWM(velocidade));
 }//fim re
 
 /**
@@ -326,7 +266,7 @@ void LARA::re(unsigned int distancia,int type, unsigned int velocidade){
   	end();
   }//fim if-else
   
-  carro -> _re(distancia, type, VEL_TO_PWM(velocidade));
+  carro -> re(distancia, type, VEL_TO_PWM(velocidade));
 }//fim re
 
 /**
@@ -346,7 +286,7 @@ void LARA:: esquerda(int angulo){
 		Serial.println("./l1r2err.==.Erro na execução da função (esquerda): o robô não consegue virar este ângulo");
 		end();
 	}//fim if
-	carro -> _esquerda(angulo);
+	carro -> esquerda(angulo);
 }//fim esquerda
 
 /**
@@ -366,7 +306,7 @@ void LARA::direita(int angulo){
 		Serial.println("./l1r2err.==.Erro na execução da função (direita): o robô não consegue virar este ângulo");
 		end();
 	}//fim if
-	carro -> _direita(angulo);
+	carro -> direita(angulo);
 }//fim direita
 
 /**
@@ -375,8 +315,7 @@ void LARA::direita(int angulo){
 **@return void
 **/
 void LARA::parar(){
-	//__TODO__ função de parar
-   carro -> _parar();
+   carro -> parar();
 }//fim parar
 
 /**
@@ -385,7 +324,7 @@ void LARA::parar(){
 **@return velocidade int: velocidade atual do robô, em cm/s
 **/
 int LARA::getVelocidade(){
- return carro -> _getVelocidade();
+ return carro -> getVelocidade();
 }//fim getVelocidade
 
 /**
@@ -402,7 +341,7 @@ void  LARA::setVelocidade (unsigned int velocidade){
 		end();
 		return;
 	}//fim if
-	carro -> _setVelocidade(VEL_TO_PWM(velocidade));
+	carro -> setVelocidade(VEL_TO_PWM(velocidade));
 }//fim setVelicidade
 
 
@@ -411,7 +350,7 @@ void  LARA::setVelocidade (unsigned int velocidade){
 **@return ang float
 **/
 float LARA::leituraAnguloNorteMagnetico(){
- 	return -1.0;
+ 	return sensor->leituraAnguloNorteMagnetico();
 }//fim leituraAnguloNorteMagnetico
 
 /**
@@ -419,7 +358,7 @@ float LARA::leituraAnguloNorteMagnetico(){
 **@return ang float
 **/
 float LARA::leituraAnguloReferencia(){
-  return -1.0;
+  return sensor->leituraAnguloReferencia();
 }//fim leituraAnguloReferencia
 
 /**
@@ -428,6 +367,7 @@ float LARA::leituraAnguloReferencia(){
 **@return void
 **/
 void LARA::setAnguloReferencia(float angulo){
+	sensor->setAnguloReferencia(angulo);
 }//fim serAnguloReferencia
 
 
@@ -449,7 +389,7 @@ void LARA::setAnguloReferencia(float angulo){
 **@return void
 **/
 void  LARA::ligarFarol(int led, int cor){
-	farol -> _ligarFarol(led, cor);
+	farol -> ligarFarol(led, cor);
 }//fim ligarFarol
 
 
@@ -463,6 +403,7 @@ void  LARA::ligarFarol(int led, int cor){
 **@return void
 **/
 void  LARA::desligarFarol(int led){
+	farol -> desligarFarol(led);
 }//fim desligarFarol
 
 /**
@@ -473,7 +414,8 @@ void  LARA::desligarFarol(int led){
 **@param cor Cor: Cor do led. Por default é azul
 **@param unsigned int tempo : tempo que o led fica ligado e desligado
 **/
-void  LARA::piscarFarol(unsigned int n, unsigned int tempo, int led, int cor){
+void  LARA::piscarFarol(unsigned int n, unsigned int tempo, int cor, int led){
+	farol -> piscarFarol(n, tempo, cor, led);
 }//fim piscarFarol
 
 /*****************************************************

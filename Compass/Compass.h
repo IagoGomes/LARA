@@ -12,6 +12,7 @@
 class Compass{
   
   private:
+
     //ângulo em relação ao norte mangnético da terra
     float bearing;
 

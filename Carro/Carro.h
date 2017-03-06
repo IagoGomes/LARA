@@ -124,7 +124,7 @@ class Carro {
     --                          ele assume o valor da constante VELOCIDADE_PWM_DEFAULT
   **@return void 
   **/
-    void _frente(int distancia=DIST_DEFAULT, int type = CM, int velocidade=VEL_PWM_DEFAULT);
+    void frente(int distancia=DIST_DEFAULT, int type = CM, int velocidade=VEL_PWM_DEFAULT);
     
    /**
   **Método que faz o robô movimentar-se para a frente
@@ -140,7 +140,7 @@ class Carro {
     --                          ele assume o valor da constante VELOCIDADE_PWM_DEFAULT
   **@return void 
   **/
-    void _frente(long &tempo, unsigned int velocidade=VEL_PWM_DEFAULT);
+    void frente(long &tempo, unsigned int velocidade=VEL_PWM_DEFAULT);
 
   /**
   **Método que faz o robô movimentar-se de marcha à ré
@@ -160,7 +160,7 @@ class Carro {
     --                          ele assume o valor da constante VELOCIDADE_PWM_DEFAULT
   **@return void 
   **/
-  void _re(int distancia=DIST_DEFAULT, int type = CM, int velocidade=VEL_PWM_DEFAULT);
+  void re(int distancia=DIST_DEFAULT, int type = CM, int velocidade=VEL_PWM_DEFAULT);
     
     /**
   **Método que faz o robô movimentar-se de marcha à ré
@@ -176,7 +176,7 @@ class Carro {
     --                          ele assume o valor da constante VELOCIDADE_PWM_DEFAULT
   **@return void 
   **/
-    void _re(long &tempo, unsigned int velocidade=VEL_PWM_DEFAULT);
+    void re(long &tempo, unsigned int velocidade=VEL_PWM_DEFAULT);
 
   /**
   **Método que faz o robô virar à direita
@@ -194,7 +194,7 @@ class Carro {
     --                          valor da constante VELOCIDADE_PWM_DEFAULT
   **@return void 
   **/
-    void _direita(int angulo=ANGULACAO_DEFAULT);
+    void direita(int angulo=ANGULACAO_DEFAULT);
 
 
   /**
@@ -206,13 +206,13 @@ class Carro {
     --                       da constante ANGULACAO_DEFAULT
   **@return void 
   **/
-    void _esquerda(int angulo=ANGULACAO_DEFAULT);
+    void esquerda(int angulo=ANGULACAO_DEFAULT);
 
   /**
   **Método que para a execução de qualquer movimento do robô
   **@return void
   **/
-    void _parar();                
+    void parar();                
 
 
 /*----------------------Métodos de Configuração -------------------------*/
@@ -220,12 +220,12 @@ class Carro {
     ** Método que muda o valor da velocidade do robô
     **@param velocidade int: velocidade do robô, em cm/s
     **/
-    void _setVelocidade(int velocidade);
+    void setVelocidade(int velocidade);
 
     /**
     ** Método que retorna a velocidade do robô
     **@return velocidade int
     **/
-    int _getVelocidade();
+    int getVelocidade();
 };//fim class
 #endif

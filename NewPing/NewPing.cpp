@@ -77,7 +77,20 @@ unsigned int NewPing::ping_median(uint8_t it) {
 	return (uS[it >> 1]); // Return the ping distance median.
 }
 
+unsigned int NewPing::ping_median_cm(uint8_t it) {
+	unsigned int echoTime = NewPing::ping_median(it);
+	return NewPingConvert(echoTime, US_ROUNDTRIP_CM);
+}
 
+unsigned int NewPing::ping_median_in(uint8_t it) {
+	unsigned int echoTime = NewPing::ping_median(it);
+	return NewPingConvert(echoTime, US_ROUNDTRIP_IN);
+}
+
+unsigned int NewPing::ping_median_m(uint8_t it) {
+	unsigned int echoTime = NewPing::ping_median(it);
+	return NewPingConvert(echoTime, US_ROUNDTRIP_CM)*100;
+}
 // ---------------------------------------------------------------------------
 // Standard ping method support functions (not called directly)
 // ---------------------------------------------------------------------------
